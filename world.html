@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Мир Fallout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .map-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background: url('https://static.wikia.nocookie.net/fallout/images/4/4e/Fo2_Worldmap.jpg/revision/latest/scale-to-width-down/1200?cb=20110115072410') no-repeat center center;
+      background-size: cover;
+    }
+
+    .dot {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background-color: limegreen;
+      border: 2px solid #0f0;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ff00;
+      transition: transform 0.2s;
+    }
+
+    .dot:hover {
+      transform: scale(1.3);
+    }
+
+    .tooltip {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.9);
+      color: #00ffcc;
+      padding: 10px 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #00ffcc;
+      display: none;
+      pointer-events: none;
+      font-size: 0.95em;
+    }
+  </style>
+</head>
+<body>
+  <div class="map-container" id="map">
+    <!-- Примеры точек -->
+    <div class="dot" style="top: 35%; left: 42%;" data-location="Арройо"></div>
+    <div class="dot" style="top: 45%; left: 50%;" data-location="Новая Рено"></div>
+    <div class="dot" style="top: 40%; left: 60%;" data-location="Убежище 13"></div>
+    <div class="dot" style="top: 52%; left: 44%;" data-location="Брокен-Хиллз"></div>
+    <div class="dot" style="top: 58%; left: 55%;" data-location="Наваррро"></div>
+    <div class="dot" style="top: 65%; left: 47%;" data-location="Убежище 15"></div>
+
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+
+  <script>
+    const dots = document.querySelectorAll('.dot');
+    const tooltip = document.getElementById('tooltip');
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', (e) => {
+        const name = dot.getAttribute('data-location');
+        tooltip.style.left = `${dot.offsetLeft + 20}px`;
+        tooltip.style.top = `${dot.offsetTop - 10}px`;
+        tooltip.innerText = name;
+        tooltip.style.display = 'block';
+      });
+
+      dot.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
