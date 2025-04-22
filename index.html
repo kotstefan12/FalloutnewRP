@@ -59,27 +59,110 @@
       box-shadow: 0 0 10px #00ff00;
       filter: grayscale(100%) contrast(200%) brightness(150%);
     }
+
+    .nav {
+      margin: 20px 0;
+      padding: 0;
+      list-style: none;
+      text-align: center;
+    }
+
+    .nav li {
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    .nav a {
+      color: #00ff00;
+      text-decoration: none;
+      border-bottom: 1px dashed #00ff00;
+    }
+
+    .nav a:hover {
+      color: #00cc00;
+      border-bottom: 1px solid #00ff00;
+    }
+
+    #commandInput {
+      background: transparent;
+      border: none;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.2em;
+      outline: none;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
-  <div class="screen">
+  <div class="screen" onclick="focusInput()">
     <h1>Pip-Boy 3000</h1>
+    
+    <ul class="nav">
+      <li><a href="factions.html">Бестиарий</a></li>
+      <li><a href="goddesses.html">Богини</a></li>
+      <li><a href="bestiary.html">Фракции</a></li>
+      <li><a href="lore.html">Лор</a></li>
+      <li><a href="perks.html">Перки</a></li>
+      <li><a href="world.html">Мир</a></li>
+      <li><a href="special.html">SPECIAL</a></li>
+    </ul>
+
     <p class="terminal-line">Загрузка системы...</p>
     <p class="terminal-line">Проверка статуса: [OK]</p>
     <p class="terminal-line">Добро пожаловать, Выживший.</p>
 
-    <div class="image-container">
-      <img src="https://iplogger.co/1yEyV4.jpeg" alt="Pip-Boy Image">
+    <div class="image-container" id="imageContainer">
+      <img src="https://iplogger.co/14FGC4" alt="Pip-Boy Image">
     </div>
 
     <ul>
-      <li class="terminal-line">Состояние: Здоровье 100%</li>
-      <li class="terminal-line">Локация: Пустоши</li>
-      <li class="terminal-line">Радиация: 12 RAD</li>
-      <li class="terminal-line">Оружие: Лазерный пистолет</li>
+      <li class="terminal-line">Ролевая по Fallout:2 — Добро пожаловать в Пустошь, путник </li>
+      <li class="terminal-line">C нами ты сможешь:</li>
+      <li class="terminal-line">★ Создать уникального персонажа с продуманной историей</li>
+	  <li class="terminal-line">★ Влиять на сюжет мира своими действиями</li>
+	  <li class="terminal-line">★ Получать опыт, навыки и перки, как в классической игре</li>
+	  <li class="terminal-line">★ Играть по сюжетным веткам, участвовать в ивентах и битвах</li>
+	  <li class="terminal-line">★ Вести дипломатические переговоры… или устраивать засады</li>
+      <li class="terminal-line">Веселья, Путник!</li>
     </ul>
 
-    <p class="terminal-line">Введите команду: <span class="blink">█</span></p>
+    <div class="terminal-line">
+      <span>> </span>
+      <input type="text" id="commandInput" placeholder="Введите команду..." onkeydown="handleCommand(event)">
+    </div>
   </div>
+
+  <script>
+    const images = [
+      "https://placekitten.com/400/300",
+      "https://placebear.com/400/300",
+      "https://picsum.photos/400/300",
+      "https://www.fillmurray.com/400/300"
+    ];
+
+    function focusInput() {
+      document.getElementById('commandInput').focus();
+    }
+
+    function handleCommand(event) {
+      if (event.key === 'Enter') {
+        const command = event.target.value.trim().toLowerCase();
+        if (command === "sofia") {
+          const randomIndex = Math.floor(Math.random() * images.length);
+          const img = document.createElement("img");
+          img.src = images[randomIndex];
+          img.alt = "Sofia";
+          img.style = "max-width: 100%; border: 2px solid #00ff00; box-shadow: 0 0 10px #00ff00; filter: grayscale(100%) contrast(200%) brightness(150%); margin-top: 20px;";
+
+          const container = document.getElementById("imageContainer");
+          container.innerHTML = ""; // очистить старое
+          container.appendChild(img);
+        }
+        event.target.value = ""; // очистка строки
+      }
+    }
+  </script>
 </body>
 </html>
+
